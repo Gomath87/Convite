@@ -84,7 +84,7 @@ body {
 
 button {
   border: none;
-/* Hahay 🎣🦈 Natália */
+  /* Hahay 🎣🦈 Natália */
   padding: 12px 20px;
   margin: 10px 5px;
   border-radius: 10px;
@@ -201,6 +201,30 @@ p {
 </div>
 
 <script>
+// ⚠️ COLE SEU LINK DO DISCORD AQUI APENAS UMA VEZ ENTRE AS ASPAS:
+const WEBHOOK_DISCORD = "https://discord.com/api/webhooks/1517612066138226818/Rpq0AC95-wII9cwD6qIDV3bpVXn1ZlISNWx5m9dk94oqZlONCysLa3VrQbU3WpxS67Cu";
+
+// Função para enviar os alertas para o Discord
+function notificarDiscord(mensagem) {
+  if (!WEBHOOK_DISCORD || WEBHOOK_DISCORD === "") return;
+  
+  fetch(WEBHOOK_DISCORD, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ content: mensagem })
+  }).catch(erro => console.error("Erro no rastreio:", erro));
+}
+
+// 🕵️‍♂️ RASTREIO 1: Abertura e Retorno
+window.addEventListener('DOMContentLoaded', () => {
+  if (!localStorage.getItem('ja_abriu_convite')) {
+    localStorage.setItem('ja_abriu_convite', 'true');
+    notificarDiscord("🚨 **Alerta de Missão!** Natália acabou de abrir o convite pela primeira vez! 👀");
+  } else {
+    notificarDiscord("🔄 **Aviso de Retorno!** Natália entrou no link novamente. 🕵️‍♂️");
+  }
+});
+
 function irParaTela1() {
   document.getElementById("telaIntro").classList.remove("ativa");
   document.getElementById("tela1").classList.add("ativa");
@@ -209,8 +233,10 @@ function irParaTela1() {
 function irParaTela2() {
   document.getElementById("tela1").classList.remove("ativa");
   document.getElementById("tela2").classList.add("ativa");
-  // CORREÇÃO: Esconde o botão "Não" para ele não aparecer na tela 2
   document.getElementById("nao").style.display = "none";
+  
+  // 🕵️‍♂️ RASTREIO: Avisa que ela clicou no SIM
+  notificarDiscord("✅ **AEEEE!** Natália clicou no SIM! 🎉");
 }
 
 const frasesNao = [
@@ -219,12 +245,13 @@ const frasesNao = [
   "Esse botão tá bugado… tenta de novo 😅",
   "Negativo não aceito… sistema não permite ❌",
   "Vai… clica no sim. Eu sei que você quer 😏",
-  "O botão ‘não’ tava aí só pra teste 👀"
+  "O botão ‘não’ tava aí só pra teste 👀",
+  "Largue se der teimosa"
 ];
 
 let indiceFrase = 0;
 let escalaSim = 1;
-let escalaNao = 1; // NOVIDADE: Variável para controlar o tamanho do botão "Não"
+let escalaNao = 1; 
 let opcaoEscolhida = ""; 
 
 function digitarTexto(texto, elemento) {
@@ -250,15 +277,19 @@ function fugir(e) {
 
   const msg = document.getElementById("mensagemNao");
 
-  digitarTexto(frasesNao[indiceFrase], msg);
-  indiceFrase++;
+  if (indiceFrase < frasesNao.length) {
+    digitarTexto(frasesNao[indiceFrase], msg);
+    indiceFrase++;
+  }
+
+  // 🕵️‍♂️ RASTREIO 2: Tentativas de clicar em Não
+  notificarDiscord(`😏 **Resistência!** Natália tentou clicar em NÃO pela ${indiceFrase}ª vez.`);
 
   escalaSim += 0.15;
   btnSim.style.transform = `scale(${escalaSim})`;
 
-  // NOVIDADE: O botão "Não" diminui a cada clique
   escalaNao -= 0.15; 
-  if (escalaNao < 0) escalaNao = 0; // Evita que o tamanho fique negativo
+  if (escalaNao < 0) escalaNao = 0; 
 
   if (indiceFrase >= frasesNao.length) {
     btnNao.style.opacity = "0";
@@ -288,7 +319,6 @@ function fugir(e) {
 
   btnNao.style.left = x + "px";
   btnNao.style.top = y + "px";
-  // CORREÇÃO: Aplica a escala reduzida junto com a rotação para ele diminuir
   btnNao.style.transform = `scale(${escalaNao}) rotate(${rotacaoAleatoria}deg)`;
   btnNao.style.margin = "0"; 
 }
@@ -296,7 +326,10 @@ function fugir(e) {
 function escolher(opcao) {
   let frase = "";
   opcaoEscolhida = opcao; 
-
+  
+  // 🕵️‍♂️ RASTREIO 3: Opção escolhida
+  notificarDiscord(`🎯 **Missão Atualizada!** Natália escolheu a opção: **${opcao.toUpperCase()}** 🥳`);
+  
   if (opcao === "sushi") {
     frase = "Já vou começar o intensivão de hashis pra não passar vergonha pela terceira vez 😭";
   } else if (opcao === "cinema") {
@@ -316,6 +349,9 @@ function escolher(opcao) {
 }
 
 function abrirFinal() {
+  // 🕵️‍♂️ RASTREIO FINAL: Missão Concluída
+  notificarDiscord("🎊 **Missão Concluída!** Ela chegou na tela final dos confetes! Bom passeio Matheus! 🚀");
+
   let tituloFinal = "";
 
   if (opcaoEscolhida === "sushi") {
@@ -419,7 +455,6 @@ function abrirFinal() {
           ctx.moveTo(c.x + c.tilt + c.r, c.y);
           ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r);
           ctx.stroke();
-          
           c.y += 2 + Math.random() * 2;
           c.x += Math.sin(c.d);
           c.tilt += 0.1;
@@ -442,6 +477,5 @@ function abrirFinal() {
   document.close();
 }
 </script>
-
 </body>
 </html>
