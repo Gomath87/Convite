@@ -188,6 +188,8 @@ p {
       <button onclick="escolher('cinema')">🎬 Cinema</button>
       <button onclick="escolher('pesqueira')">🏕️ Pesqueira</button>
       <button onclick="escolher('bichinhos')">🐶 Bichinhos</button>
+      <button onclick="escolher('acai')">🥣 Açaí</button>
+      <button onclick="escolher('almocar')">🍽️ Almoçar</button>
     </div>
   </div>
 </div>
@@ -202,6 +204,7 @@ p {
 
 <script>
 
+// Lembre-se de colocar a sua URL do Discord de volta aqui:
 const WEBHOOK_DISCORD = "https://discord.com/api/webhooks/1517612066138226818/Rpq0AC95-wII9cwD6qIDV3bpVXn1ZlISNWx5m9dk94oqZlONCysLa3VrQbU3WpxS67Cu";
 
 // Função para enviar os alertas para o Discord
@@ -337,6 +340,10 @@ function escolher(opcao) {
     frase = "Perfeito… só falta a gente encontrar o cara da moto pra garantir o entretenimento 😂";
   } else if (opcao === "bichinhos") {
     frase = "Lembrando que está 2x1 pra você 😔🐾 mas eu tô na cola 😏";
+  } else if (opcao === "acai") {
+    frase = "Vamos lá comer daquele açaí 'zero' batizado kkkk 🤣";
+  } else if (opcao === "almocar") {
+    frase = "Já vai escolhendo o restaurante, porque o prato principal é a minha companhia! 🍽️😂";
   }
 
   document.getElementById("tela2").classList.remove("ativa");
@@ -361,6 +368,10 @@ function abrirFinal() {
     tituloFinal = "Marcado o rolê em Pesqueira ein? 🏕️";
   } else if (opcaoEscolhida === "bichinhos") {
     tituloFinal = "Marcado de pegar os bichinhos ein? 🐾";
+  } else if (opcaoEscolhida === "acai") {
+    tituloFinal = "Marcado o açaí ein? 🥣";
+  } else if (opcaoEscolhida === "almocar") {
+    tituloFinal = "Marcado o almoço ein? 🍽️";
   } else {
     tituloFinal = "Marcado! 😜";
   }
